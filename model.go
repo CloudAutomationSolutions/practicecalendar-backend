@@ -11,6 +11,7 @@ type User struct {
 // A colection of tasks and their completion dates and start date
 type Project struct {
 	ID             string   `json:"id" firestore:"id"`
+	Name           string   `json:"name" firestore:"name"`
 	Tasks          []Task   `json:"tasks" firestore:"tasks"`
 	StartDate      string   `json:"startDate" firestore:"startDate"`
 	CompletedDates []string `json:"completedDates" firestore:"completedDates"`
