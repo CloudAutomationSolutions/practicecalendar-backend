@@ -38,7 +38,7 @@ var (
 func F(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests. Make sure to add practicecalendar.com when deploying
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
 	jwtMiddleware, err := GetJWTMiddleware(aud, iss)
