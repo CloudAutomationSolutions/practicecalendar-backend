@@ -36,6 +36,10 @@ var (
 // F ...
 // Wrapper to add middlelayer check: https://auth0.com/docs/quickstart/backend/golang/01-authorization#validate-access-tokens
 func F(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests. Make sure to add practicecalendar.com when deploying
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
 	jwtMiddleware, err := GetJWTMiddleware(aud, iss)
 	if err != nil {
@@ -45,6 +49,8 @@ func F(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch r.Method {
+	case "OPTIONS":
+		return
 	case "GET":
 		jwtMiddleware.HandlerWithNext(w, r, getHTTPHandler)
 	case "POST":
@@ -79,6 +85,7 @@ func getHTTPHandler(w http.ResponseWriter, r *http.Request) {
 
 func postHTTPHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Printf("Cannot read body: %s", err)
